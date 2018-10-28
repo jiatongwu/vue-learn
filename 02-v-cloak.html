@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Title of the document</title>
+
+<style>
+    [v-cloak] {
+        display:none;
+    }
+    [v-cloakaaaa] {
+        display:none;
+    }
+</style>
+</head>
+
+<body>
+<div id="app">
+    <p v-cloak>{{msg}}</p> 
+    <h4 v-text="msg"></h4>
+    <div v-cloakaaaa>{{msg2}}</div> 
+    <div v-html="msg2"></div>  
+    <input type="button" value="按钮" v-bind:title="mytitle" v-on:click="show"/>
+    <input type="button" value="按钮2" :title="mytitle + '123'"/>
+</div>
+<script src="vue2.4.0.js"></script>
+<script>
+    var vm=new Vue({
+        el:'#app',
+        data:{
+            msg:'hello vue',
+            msg2:'<h1>hihi</h1>',
+            mytitle:'这是一个按钮title'
+        },
+        methods:{
+            show:function(){
+                alert("show");
+            }
+        }
+    });
+</script>
+</body>
+
+
+</html> 
