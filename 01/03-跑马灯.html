@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title of the document</title>
+
+    <style>
+        [v-cloak] {
+        display:none;
+    }
+    [v-cloakaaaa] {
+        display:none;
+    }
+</style>
+</head>
+
+<body>
+    <div id="app">
+        <input type="button" value="start" v-on:click="start" /><input type="button" value="stop" v-on:click="stop" />
+        <h4 v-cloak> {{ msg }}</h4>
+    </div>
+    <script src="vue2.4.0.js"></script>
+    <script>
+        var vm = new Vue({
+            el: '#app',
+            timeId: null,
+            data: {
+                msg: "hello,vue"
+            },
+            methods: {
+                start() {
+                    if (this.timerId == null) {
+                        this.timerId = setInterval(
+                            () => {
+                                var start = this.msg.substring(0, 1);
+                                var end = this.msg.substring(1);
+                                var tmp = end + start;
+                                this.msg = tmp;
+                            }, 200
+                        );
+                    }
+                },
+                stop() {
+                    clearInterval(this.timerId);
+                    this.timerId = null;
+                }
+            }
+
+
+        });
+       // console.log(vm.msg);
+       // vm.msg="吴佳同";
+    </script>
+</body>
+
+
+</html>

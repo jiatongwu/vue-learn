@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title of the document</title>
+
+    <style>
+        [v-cloak] {
+        display:none;
+    }
+    [v-cloakaaaa] {
+        display:none;
+    }
+</style>
+</head>
+
+<body>
+    <div id="app">
+        <input type="text" v-model="n1" />
+        <select v-model="opt">
+            <option value="+">+</option>
+            <option value="-">-</option>
+            <option value="*">*</option>
+            <option value="/">/</option>
+        </select>
+        <input type="text" v-model="n2" />
+        <input type="button" value="=" @click="calc" />
+        <input type="text" v-model="result" />
+
+
+    </div>
+    <script src="vue2.4.0.js"></script>
+    <script>
+        var vm = new Vue({
+            el: '#app',
+            timeId: null,
+            data: {
+                n1: 0,
+                n2: 0,
+                opt: '+',
+                result: 0
+            },
+            methods: {
+                calc() {
+                    switch (this.opt) {
+                        case '+':
+                            this.result = parseInt(this.n1) + parseInt(this.n2);
+                            break;
+                        case '-':
+                            this.result = parseInt(this.n1) - parseInt(this.n2);
+                            break;
+                        case '*':
+                            this.result = parseInt(this.n1) * parseInt(this.n2);
+                            break;
+                        case '/':
+                            this.result = parseInt(this.n1) / parseInt(this.n2);
+                            break;
+                    }
+                }
+            }
+
+
+        });
+       // console.log(vm.msg);
+       // vm.msg="吴佳同";
+    </script>
+</body>
+
+
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Title of the document</title>
+<script src="vue2.4.0.js"></script>
+<script src="jquery2.2.4.js"></script>
+<style>
+    .red{
+        color:red;
+    }
+    .thin{
+        font-weight: 200;
+    }
+    .italic{
+        font-style: italic;
+    }
+    .active{
+        letter-spacing: 0.5em;
+    }
+
+</style>
+</head>
+<div id="app">
+    <!-- v-bind:class="" 属性值绑定 -->
+    <h1 :class="[redFlag?'red':'','thin']">h1h1h1h1h1</h1>
+    <!-- 直接使用对象 -->
+    <h1 :class="[{'red':redFlag},'thin']">h1h1h1h1h1</h1>
+    <h1 :class="classObj">h1h1h1h1h1</h1>
+
+    <input type="text" id="name"/>
+    <input type="button" @click="btnClick"/>
+
+</div>
+<body>
+    <script>
+        var vm=new Vue({
+            el:"#app",
+            data:{
+                msg:"hello,world",
+                red:"red",
+                redFlag:false,
+                classObj:{
+                    red:true
+                }
+            },
+            methods:{
+                btnClick(){
+                    console.log($("#name").val());
+                }
+            }
+
+        });
+    </script>
+    
+</body>
+
+</html> 
