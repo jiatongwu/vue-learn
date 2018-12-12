@@ -59,7 +59,7 @@
             </tr>
         </thead>
         <tbody>
-            <tr v-for="item in list" :key="item.id">
+            <tr v-for="item in search(keyword)" :key="item.id">
                 <td v-text="item.id"></td>
                 <td v-text="item.name"></td>
                 <td v-text="item.time"></td>
@@ -106,7 +106,23 @@
                     this.list.splice(index,1);
                    
                    
+                },
+                search(keyword){
+                  /* var newList=[];
+                   this.list.forEach(element => {
+                       if(element.name.indexOf(keyword)!=-1){
+                           newList.push(element);
+                       }
+                   });
+                   return newList;
+                   */
+                   return this.list.filter(item=>{
+                       if(item.name.includes(keyword)){
+                           return item;
+                       }                       
+                   });
                 }
+                
             }
 
         });
