@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title of the document</title>
+    <script src="../vue2.4.0.js"></script>
+    <script src="../jquery2.2.4.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+        crossorigin="anonymous">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp"
+        crossorigin="anonymous">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+        crossorigin="anonymous"></script>
+    <style>
+
+    </style>
+</head>
+<div id="app">
+
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h3 class="panel-title">添加品牌</h3>
+        </div>
+        <div class="panel-body form-inline">
+            <label>
+                id:
+                <input type="text" name="" id="" class="form-control" v-model="id" value="" title="">
+
+            </label>
+            <label>
+                name:
+                <input type="text" name="" id="" class="form-control" v-model="name" @keyup.enter="add" value="" title="">
+
+            </label>
+            <input type="button" value="添加" @click="add" class="btn btn-primary" />
+
+
+            <label>
+                搜索关键字:
+                <input v-focus type="text" name="" id="" class="form-control" v-model="keyword" value="" title="">
+
+            </label>
+        </div>
+    </div>
+
+
+    <table class="table table-bordered table-hover ">
+        <thead>
+            <tr>
+                <th>id</th>
+                <th>name</th>
+                <th>time</th>
+                <th>operation</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr v-for="item in search(keyword)" :key="item.id">
+                <td v-text="item.id"></td>
+                <td v-text="item.name"></td>
+                <td v-text="item.time"></td>
+                <td><a @click.prevent="del(item.id)">删除</a></td>
+            </tr>
+        </tbody>
+    </table>
+
+
+</div>
+
+<body>
+    <script>
+        Vue.config.keyCodes.f2=113;
+         Vue.filter('dataFormat',function(data){
+            return data.replace("hello","hhhhh");
+        });
+        Vue.directive("focus",{
+            bind:function(el){//每当指令绑定到元素上的时候 只执行一次
+                console.log("bind");
+                el.focus();
+            },
+            inserted:function(el){//元素插入到dom中的时候
+                console.log("inserted");
+                el.focus();
+            },
+            updated:function(el){
+                console.log("updated");
+            }
+        });
+        var vm = new Vue({
+            el: "#app",
+            data: {
+                keyword:'',
+                id:'',
+                name:'',
+                list: [{ id: 1, name: 'nexus', time: new Date() }, { id: 2, name: 'lg', time: new Date() }]
+            },
+            methods: {
+                add(){
+                    console.log(this.id,this.name);
+                    var obj={id:this.id,name:this.name,time:new Date()};
+                    this.list.push(obj);
+                    this.id='';
+                    this.name='';
+                },
+                del(id){
+                    /*
+                    this.list.some((item,i) => {
+                        if(item.id=id){
+                            this.list.splice(i,1);
+                            return true;
+                        }
+                    });
+                    */
+                    var index=                    this.list.findIndex((item) => {
+                        if(item.id==id){
+                            return true;
+                        }
+                    });
+                    this.list.splice(index,1);
+                   
+                   
+                },
+                search(keyword){
+                  /* var newList=[];
+                   this.list.forEach(element => {
+                       if(element.name.indexOf(keyword)!=-1){
+                           newList.push(element);
+                       }
+                   });
+                   return newList;
+                   */
+                   return this.list.filter(item=>{
+                       if(item.name.includes(keyword)){
+                           return item;
+                       }                       
+                   });
+                }
+                
+            }
+
+        });
+    </script>
+
+</body>
+
+</html>
