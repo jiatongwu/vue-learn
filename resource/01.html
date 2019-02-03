@@ -29,11 +29,12 @@
 </head>
 
 <body>
+    <p>
 @RequestMapping("/jsonp")
-	public String jsonp(String callback)  {
-		
+	public String jsonp(String callback)  {		
 		return "hello(111)";
-	}
+    }
+</p>
     <input type="button" id="testJsonp" onclick="jsonpFn();" value="testjsonpjs" />
     <div id="app">
         <input type="file" id="file01" />
@@ -42,6 +43,24 @@
         <button @click="postformdata">postformdata</button>
         <button @click="testchinese">testchinese</button>
         <button @click="jsonp">jsonp</button>
+
+
+
+
+
+        <hr/>
+
+
+        <button @click=""></button>
+        <button @click=""></button>
+        <button @click=""></button>
+        <button @click=""></button>
+        <button @click=""></button>
+
+        vue-resource 
+        axios
+
+
     </div>
     <script>
 

@@ -6,21 +6,23 @@
     <title>Title of the document</title>
     <script src="../vue2.4.0.js"></script>
     <script src="../jquery2.2.4.js"></script>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
-        crossorigin="anonymous">
+    <link rel="stylesheet" href="../bootstrap-3.3.7.min.css" />
 
     <!-- Optional theme -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp"
-        crossorigin="anonymous">
+    <link rel="stylesheet" href="../bootstrap-theme-3.3.7.min.css" />
 
     <!-- Latest compiled and minified JavaScript -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
-        crossorigin="anonymous"></script>
+    <script src="../bootstrap-3.3.7.min.js"></script>
     <style>
 
     </style>
 </head>
 <div id="app">
+    <h3 id="h3">{{msg}}</h3>
+    <input type="button" value="修改变量msg" @click="msg='No'"/>
+    <input v-fontcolor="'blue'"/>
+    <input v-fontweight="'900'"/>
+    <input v-fontsize="'40px'" />
 
     <div class="panel panel-primary">
         <div class="panel-heading">
@@ -33,7 +35,9 @@
 
             </label>
             <label>
-                name:
+                name:<!-- @keyup.113="add"
+                        @keyup.f2="add"
+                -->
                 <input type="text" name="" id="" class="form-control" v-model="name" @keyup.enter="add" value="" title="">
 
             </label>
@@ -46,6 +50,8 @@
 
             </label>
         </div>
+
+
     </div>
 
 
@@ -73,13 +79,16 @@
 
 <body>
     <script>
+        //自定义全局按键修饰符
         Vue.config.keyCodes.f2=113;
          Vue.filter('dataFormat',function(data){
             return data.replace("hello","hhhhh");
         });
+        // 定义全局指令
         Vue.directive("focus",{
             bind:function(el){//每当指令绑定到元素上的时候 只执行一次
                 console.log("bind");
+                //此时未插入到dom中　所以不起作用
                 el.focus();
             },
             inserted:function(el){//元素插入到dom中的时候
@@ -90,11 +99,28 @@
                 console.log("updated");
             }
         });
+        Vue.directive("fontcolor",{
+            bind:function(el,binding){//每当指令绑定到元素上的时候 只执行一次
+                console.log("bind");
+                console.log(binding);
+                //此时未插入到dom中　所以不起作用
+                el.style.color=binding.value;
+
+            },
+            inserted:function(el){//元素插入到dom中的时候
+                console.log("inserted");
+                
+            },
+            updated:function(el){
+                console.log("updated");
+            }
+        });
         var vm = new Vue({
             el: "#app",
             data: {
                 keyword:'',
                 id:'',
+                msg:'ok',
                 name:'',
                 list: [{ id: 1, name: 'nexus', time: new Date() }, { id: 2, name: 'lg', time: new Date() }]
             },
@@ -140,6 +166,47 @@
                    });
                 }
                 
+            },
+            filters:{
+
+            },
+            directives:{
+                'fontweight':{
+                    bind:function(el,binding){
+                        el.style.fontWeight=binding.value;
+                    }
+                },
+                'fontsize':function(el,binding){
+                    el.style.fontSize=binding.value;
+                }//等同于写到bind和update中去
+            },
+            beforeCreate(){//第一个生命周期函数
+                console.log("beforeCreate");
+                //此时msg还没有被实例化
+                console.log(this.msg);
+            },
+            created(){
+                console.log("created");
+                console.log(this.msg);
+            },
+            beforeMount(){//第3个生命周期函数　表示　模板已经在内存中编辑完成了但是没有渲染到页面中
+                console.log("beforeMount");
+                console.log(document.getElementById("h3").innerText);
+            },
+            mounted(){//第4个生命周期函数　表示　内存中的模板已经真实挂载到页面中了　可以看到效果了
+                console.log("mounted");
+            },
+            //接下来是运行中的2个事件回调函数
+            beforeUpdate(){ 
+                console.log("beforeUpdate");
+                console.log("beforeUpdate:"+document.getElementById("h3").innerText);
+                console.log("msg:"+this.msg);
+            },
+            updated(){
+                //页面和data数据保持一致了
+                console.log("updated");
+                console.log("beforeUpdate:"+document.getElementById("h3").innerText);
+                console.log("msg:"+this.msg);
             }
 
         });
